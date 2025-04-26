@@ -1,4 +1,7 @@
 /.venv
+/annotation_export
 /dataset_aerial_images
 /raw_images_640x640
 /runs
+
+*.pt

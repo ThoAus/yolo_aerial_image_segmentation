@@ -24,6 +24,9 @@ Segmentierung der Bilder mit klassischem U-Net und vergleich der Ergebnisse; es 
 ## Ergebnis
 
 
+## Probleme
+Teilweise nicht perfekt von oben, auch fassaden ersichtlich > was wird markiert? nur die dachfläche oder generell das Gebäude? Im vorliegenden Fall das Gebäude
+Grundsätzlich sehr verschiedene Oberflächen und strukturen, Satteldach mit Ziegeln bis hin zu begrünten falchdach. Letzteres schwierig von wiese zu unterscheiden. Bei Solaranlagen ist struktur grundsötzlich ähnlicher, kommt weniger oft vor.
 
 ## Links
 - [Webseite zur Lehrveranstaltung](https://mciwing.github.io/)
@@ -58,9 +61,6 @@ Segmentierung der Bilder mit klassischem U-Net und vergleich der Ergebnisse; es 
 
 #### 17. April
 - Download weiterer Bilder:
-    - Gargazon, Gemeindeplatz - CFG.RASTER_CENTER = (1247000, 5874540), CFG.RASTER_SIZE = (5, 5)
-    - Eppan, Montigglerstraße - CFG.RASTER_CENTER = (1254790, 5852700), CFG.RASTER_SIZE = (5, 5)
-    - Niederolang, Oberrain - CFG.RASTER_CENTER = (1338270, 5903870), CFG.RASTER_SIZE = (5, 5)
-    - Mals, Bahnhofstraße - CFG.RASTER_CENTER = (1173975, 5891150), CFG.RASTER_SIZE = (5, 5)
+
 
 

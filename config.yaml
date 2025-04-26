@@ -1,13 +1,12 @@
 # Data
-path: C:/Users/thoma/Documents/GitHub/WING_YOLO/dataset_2 # path to your project folder
+path: C:/Users/thoma/Documents/GitHub/WING_YOLO/dataset # path to your project folder
 train: images/train # training images (relative to 'path')
 val: images/val # validation images (relative to 'path')
 #test: # test images (optional) (relative to 'path')
 
-nc: 3 # Number of classes
+nc: 2 # Number of classes
 
 # Classes
 names:
-  0: Solar
-  1: Roof
-  2: Pool
+  0: Roof
+  1: Solar
