@@ -23,6 +23,11 @@ Segmentierung der Bilder mit klassischem U-Net und vergleich der Ergebnisse; es 
 
 ## Ergebnis
 
+Bei 'RUN_6' werden viele Obstplantagen als 'Solar' erkannt. Vermutlich weil ein ähnliches Streifenmuster oder Raster erkannt wird. Bei der Auswahl der Trainingsdaten mit Ausreichend Beispielen und Negativbeispielen zu berücksichtigen.
+
+<img src="images/image_test_1.png" alt="drawing" width="400"/>
+
+
 
 ## Probleme
 Teilweise nicht perfekt von oben, auch fassaden ersichtlich > was wird markiert? nur die dachfläche oder generell das Gebäude? Im vorliegenden Fall das Gebäude
