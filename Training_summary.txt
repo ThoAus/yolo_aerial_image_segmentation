@@ -65,7 +65,6 @@ Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask
 
  ----------------------------------------------------------------------------------------------------------------------
 
-
  RUN_9 - Medium model, trained for 3 epochs, 200 train / 50 valid, (train2)
 
 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95)
