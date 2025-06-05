@@ -1,6 +1,8 @@
 /.venv
 /annotation_export
-/dataset_aerial_images
+/combined_masks
+/downloadeded_images
+/predicted_masks
 /raw_images_640x640
 /downloadeded_images
 

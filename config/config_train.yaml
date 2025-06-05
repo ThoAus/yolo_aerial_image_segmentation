@@ -1,5 +1,5 @@
 # Data
-path: dataset # path to your project folder
+path: C:\Users\thoma\Documents\GitHub\WING_YOLO\dataset # path to your project folder
 train: images/train # training images (relative to 'path')
 val: images/val # validation images (relative to 'path')
 
