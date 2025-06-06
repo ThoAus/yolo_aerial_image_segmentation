@@ -7,4 +7,7 @@
 /downloadeded_images
 
 
-yolo11*.pt
+# Ignore yolo model files
+*seg.pt
+best.pt
+last.pt

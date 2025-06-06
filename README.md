@@ -12,9 +12,12 @@ The data should be saved in a format for further anaysis in the open Source GIS 
 ## Dataset
 The source of the aereal image is the "Autonome Provinz Bozen - Südtirol". The aereal image is aviable in a resolution of 20cm per pixel on a WMS-Service. The aereal images are aviable via the Website [MapView](https://mapview.civis.bz.it/) in this resolution and quality are made aereal images for the years:
 
-- 20XX
-- 20XX
-- 2023
+- 'p_bz-Orthoimagery:Aerial-2011-RGB-20CM',
+- 'p_bz-Orthoimagery:Aerial-2014-RGB',
+- 'p_bz-Orthoimagery:Aerial-2015-RGB',
+- 'p_bz-Orthoimagery:Aerial-2017-RGB',
+- 'p_bz-Orthoimagery:Aerial-2020-RGB',
+- 'p_bz-Orthoimagery:Aerial-2023-RGB',
 
 To train the model 250 images are downloaded in the size 640 x 640 pixel at locations with different kinds of vegetation and building styles from the aereal image of the year 2023 using the Notebook [01_Dataset.ipynb](/01_Dataset.ipynb) and the library [owslib](https://owslib.readthedocs.io/en/latest/usage.html#wms). The annotation was done using label-studio. There are annotated the segmentation masks for the class 'roof' and 'solar'. The dataset is split randomly to 200 images for training and 50 images for validation (proportion 20/80). The total annotated aerea is 640 x 640 pixel * 0,2 m/pixel = 16.384 m² * 250 images = 4.096.000 m² = 4,1 km². In the 50 images of the validation set are present 195 instances of class roof and 73 instances of class solar.
 
