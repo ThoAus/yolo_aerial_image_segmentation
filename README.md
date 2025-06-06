@@ -23,7 +23,7 @@ To train the model 250 images are downloaded in the size 640 x 640 pixel at loca
 
 
 ## Model
-To resolve the task training on all avialbe YOLO11 segmentation models is performed on a workstation with a Intel... CPU, 128 GB memory and two GPU Nvidia ... with 24 GB memory each. The training is performed using the Notebook [02_Training.ipynb](/02_Training.ipynb) for 100 epochs with the default hyperparameters. In the following graph the results are shown
+To resolve the task training on all avialbe YOLO11 segmentation models is performed on a workstation with a Intel... CPU, 128 GB memory and two GPU Nvidia RTX A5000 with 24 GB memory each. The training is performed using the Notebook [02_Training.ipynb](/02_Training.ipynb) for 100 epochs with the default hyperparameters. In the following graph the results are shown
 
 | model | inference time | P roof | R roof | mAP50 roof | P solar | R solar | mAP50 solar |
 |-------|---------------|--------|--------|------------|-------------|---------|---------|
