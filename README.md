@@ -1,38 +1,33 @@
 # One-Pager for submission
-this project is made as submission for the lecture [Intelligent Production Systems](https://mciwing.github.io/)
+this project is made as submission for the lecture [Intelligent Production Systems](https://mciwing.github.io/). The code can be found on [GitHub](https://github.com/ThoAus/yolo_aerial_image_segmentation.git)
 
 ## Purpose
 On the aereal image the following objects has to be indentified and marked with a segmentation mask.
 - Buildings
 - Solar plants, in most of the cases installed on building roofs
 
-The data should be saved in a format for further anaysis in the open Source GIS software QIS.
+The data should be saved in a format for further anaysis in the open Source GIS software [QGIS](https://qgis.org/download/).
 
 
 ## Dataset
-The source of the aereal image is the "Autonome Provinz Bozen - Südtirol". The aereal image is aviable in a resolution of 20cm per pixel on a WMS-Service. The aereal images are aviable via the Website [MapView](https://mapview.civis.bz.it/) in this resolution and quality are made aereal images for the years:
+The source of the aereal image is the "Autonome Provinz Bozen - Südtirol". The aereal image is aviable in a resolution of 20cm per pixel on a WMS-Service. The aereal images are aviable via the Website [MapView](https://mapview.civis.bz.it/) in this resolution and quality are aviable aereal images for the years:
 
-- 'p_bz-Orthoimagery:Aerial-2011-RGB-20CM',
-- 'p_bz-Orthoimagery:Aerial-2014-RGB',
-- 'p_bz-Orthoimagery:Aerial-2015-RGB',
-- 'p_bz-Orthoimagery:Aerial-2017-RGB',
-- 'p_bz-Orthoimagery:Aerial-2020-RGB',
-- 'p_bz-Orthoimagery:Aerial-2023-RGB',
+- 'p_bz-Orthoimagery:Aerial-2011-RGB-20CM'
+- 'p_bz-Orthoimagery:Aerial-2014-RGB'
+- 'p_bz-Orthoimagery:Aerial-2015-RGB'
+- 'p_bz-Orthoimagery:Aerial-2017-RGB'
+- 'p_bz-Orthoimagery:Aerial-2020-RGB'
+- 'p_bz-Orthoimagery:Aerial-2023-RGB'
 
-To train the model 250 images are downloaded in the size 640 x 640 pixel at locations with different kinds of vegetation and building styles from the aereal image of the year 2023 using the Notebook [01_Dataset.ipynb](/01_Dataset.ipynb) and the library [owslib](https://owslib.readthedocs.io/en/latest/usage.html#wms). The annotation was done using label-studio. There are annotated the segmentation masks for the class 'roof' and 'solar'. The dataset is split randomly to 200 images for training and 50 images for validation (proportion 20/80). The total annotated aerea is 640 x 640 pixel * 0,2 m/pixel = 16.384 m² * 250 images = 4.096.000 m² = 4,1 km². In the 50 images of the validation set are present 195 instances of class roof and 73 instances of class solar.
+To train the model 250 images are downloaded in the size 640 x 640 pixel at locations with different kinds of vegetation and building styles from the aereal image of the year 2023 using the Notebook [01_Dataset.ipynb](/01_Dataset.ipynb) and the library [owslib](https://owslib.readthedocs.io/en/latest/usage.html#wms). The annotation was done using [label-studio](https://labelstud.io/). There are annotated the segmentation masks for the class 'roof' and 'solar'. The dataset is split randomly to 200 images for training and 50 images for validation (proportion 20/80). The total annotated aerea is 640 x 640 pixel * 0,2 m/pixel = 16.384 m² * 250 images = 4.096.000 m² = 4,1 km². In the 50 images of the validation set are present 195 instances of class roof and 73 instances of class solar.
 
 
 ## Model
-To resolve the task training on all avialbe YOLO11 segmentation models is performed on a workstation with a Intel... CPU, 128 GB memory and two GPU Nvidia RTX A5000 with 24 GB memory each. The training is performed using the Notebook [02_Training.ipynb](/02_Training.ipynb) for 100 epochs with the default hyperparameters. In the following graph the results are shown
+The framework used ist [YOLO](https://docs.ultralytics.com/). The To resolve the task training on all avialbe YOLO11 segmentation models is performed on a workstation with a Intel Xenon Silver 4218R CPU, 128 GB memory and two GPU Nvidia RTX A5000 with 24 GB memory each. The training is performed in [02_Training.ipynb](/02_Training.ipynb) for 100 epochs with the default hyperparameters. The training and inference is also performed on a notebbok wit a AMD Ryzen Pro 7840HS CPU and 32GB memory without dedicated GPU. In the following table the results are shown
 
-| model | inference time | P roof | R roof | mAP50 roof | P solar | R solar | mAP50 solar |
-|-------|---------------|--------|--------|------------|-------------|---------|---------|
-|yolo11n-seg|000 ms|000|000|000|000|000|000|000|
-|yolo11s-seg|000 ms|000|000|000|000|000|000|000|
-|yolo11m-seg|000 ms|000|000|000|000|000|000|000|
-|yolo11l-seg|000 ms|000|000|000|000|000|000|000|
+![kkk](./report_images/training_results_table.jpg)
 
-The precisioan (P), recal (R) and mAP50 for the model XXX are the highest, becaus the model is not used for a time critical application like a real time detection the large model can be selected for further use. In the following image a prediction on the validation dataset is shown (ground truth on the left / prediction on the right).
+For further analys the model 'yolo11m-seg' trained for 100 epochs is used, in the metrics there are no big differences between the models are recogabialbe. It woud be better to compare the example images.
 
 
 ## Use in QGIS
@@ -57,27 +52,13 @@ The png files then can be loaded in QGIS for furth processing and analyzing. On 
 ## Problems and  Improvements
 There are the following improvements wich can be optimized in further work
 
-- xxx
-- xxx
-- xxx 
+- There are reconized apple fields as solar plants and streets as buildings. With mor training data and augmentation during training process the problem shuold be solved or be better
+- an the edges the objects are not detected well, in most cases a row of one pixel is empty. this could be done better having an overlap between images
+- 
 
 
 
-## Ergebnis
+## Conclusion
 
-Bei 'RUN_6' werden viele Obstplantagen als 'Solar' erkannt. Vermutlich weil ein ähnliches Streifenmuster oder Raster erkannt wird. Bei der Auswahl der Trainingsdaten mit Ausreichend Beispielen und Negativbeispielen zu berücksichtigen.
-
-
-
-
-## Probleme
-Teilweise nicht perfekt von oben, auch fassaden ersichtlich > was wird markiert? nur die dachfläche oder generell das Gebäude? Im vorliegenden Fall das Gebäude
-Grundsätzlich sehr verschiedene Oberflächen und strukturen, Satteldach mit Ziegeln bis hin zu begrünten falchdach. Letzteres schwierig von wiese zu unterscheiden. Bei Solaranlagen ist struktur grundsötzlich ähnlicher, kommt weniger oft vor.
-Obstwiesen oder Straßen werden teilweise erkannt, negativbeispiele ergänzen.
-
-## Links
-- [Webseite zur Lehrveranstaltung](https://mciwing.github.io/)
-- [Arbeiten mit virtuellen Umgebung](https://mciwing.github.io/python/packages/)
-- [MapView - Darstellung und Download der Orthofotos](https://mapview.civis.bz.it/)
-
+this is a quick and simple implementation to use yolo for segmentation of aereal images. with different training data it is als possible to detect other objects wich can be trees, pools, apple fields.
 
