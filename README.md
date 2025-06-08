@@ -1,16 +1,18 @@
-# One-Pager for submission
-this project is made as submission for the lecture [Intelligent Production Systems](https://mciwing.github.io/). The code can be found on [GitHub](https://github.com/ThoAus/yolo_aerial_image_segmentation.git)
+# One-Pager for Submission
+
+This project was created as a submission for the lecture [Intelligent Production Systems](https://mciwing.github.io/). The code is available in the linked [GitHub Repository](https://github.com/ThoAus/yolo_aerial_image_segmentation.git).
 
 ## Purpose
-On the aereal image the following objects has to be indentified and marked with a segmentation mask.
+
+In the aerial images, the following objects must be identified and marked with segmentation masks:
 - Buildings
-- Solar plants, in most of the cases installed on building roofs
+- Solar plants, in most cases installed on building roofs
 
-The data should be saved in a format for further anaysis in the open Source GIS software [QGIS](https://qgis.org/download/).
-
+The data should be saved in a format suitable for further analysis in the open-source GIS software [QGIS](https://qgis.org/download/).
 
 ## Dataset
-The source of the aereal image is the "Autonome Provinz Bozen - Südtirol". The aereal image is aviable in a resolution of 20cm per pixel on a WMS-Service. The aereal images are aviable via the Website [MapView](https://mapview.civis.bz.it/) in this resolution and quality are aviable aereal images for the years:
+
+The source of the aerial images is the 'Autonome Provinz Bozen - Südtirol'. The images are available at a resolution of 20 cm per pixel via a WMS service. These images can be accessed through the website [MapView](https://mapview.civis.bz.it/), with the following datasets available:
 
 - 'p_bz-Orthoimagery:Aerial-2011-RGB-20CM'
 - 'p_bz-Orthoimagery:Aerial-2014-RGB'
@@ -19,46 +21,44 @@ The source of the aereal image is the "Autonome Provinz Bozen - Südtirol". The 
 - 'p_bz-Orthoimagery:Aerial-2020-RGB'
 - 'p_bz-Orthoimagery:Aerial-2023-RGB'
 
-To train the model 250 images are downloaded in the size 640 x 640 pixel at locations with different kinds of vegetation and building styles from the aereal image of the year 2023 using the Notebook [01_Dataset.ipynb](/01_Dataset.ipynb) and the library [owslib](https://owslib.readthedocs.io/en/latest/usage.html#wms). The annotation was done using [label-studio](https://labelstud.io/). There are annotated the segmentation masks for the class 'roof' and 'solar'. The dataset is split randomly to 200 images for training and 50 images for validation (proportion 20/80). The total annotated aerea is 640 x 640 pixel * 0,2 m/pixel = 16.384 m² * 250 images = 4.096.000 m² = 4,1 km². In the 50 images of the validation set are present 195 instances of class roof and 73 instances of class solar.
-
+To train the model, 250 images of size 640 x 640 pixels were downloaded from various locations with different vegetation and building styles, using the 2023 dataset and the notebook [01_Dataset.ipynb](/01_Dataset.ipynb) with the [owslib](https://owslib.readthedocs.io/en/latest/usage.html#wms) library. Annotation was performed using [label-studio](https://labelstud.io/), with segmentation masks for the classes 'roof' and 'solar'. The dataset was randomly split into 200 images for training and 50 images for validation (80/20 split). The total annotated area is 640 x 640 pixels * 0.2 m/pixel = 16,384 m² per image, totaling 4,096,000 m² (4.1 km²) for 250 images. In the 50 validation images, there are 195 instances of the 'roof' class and 73 instances of the 'solar' class.
 
 ## Model
-The framework used ist [YOLO](https://docs.ultralytics.com/). The To resolve the task training on all avialbe YOLO11 segmentation models is performed on a workstation with a Intel Xenon Silver 4218R CPU, 128 GB memory and two GPU Nvidia RTX A5000 with 24 GB memory each. The training is performed in [02_Training.ipynb](/02_Training.ipynb) for 100 epochs with the default hyperparameters. The training and inference is also performed on a notebbok wit a AMD Ryzen Pro 7840HS CPU and 32GB memory without dedicated GPU. In the following table the results are shown
 
-![kkk](./report_images/training_results_table.jpg)
+The framework used is [YOLO](https://docs.ultralytics.com/). All available YOLO11 segmentation models were trained on a workstation with an Intel Xeon Silver 4218R CPU, 128 GB RAM, and two Nvidia RTX A5000 GPUs (24 GB each). Training was performed in [02_Training.ipynb](/02_Training.ipynb) for 100 epochs with default hyperparameters. Training and inference were also tested on a notebook with an AMD Ryzen Pro 7840HS CPU and 32 GB RAM without a dedicated GPU. The results are shown in the table below.
 
-For further analys the model 'yolo11m-seg' trained for 100 epochs is used, in the metrics there are no big differences between the models are recogabialbe. It woud be better to compare the example images.
+![](./report_images/training_results_table.jpg)
 
+For further analysis, the model 'yolo11m-seg' trained for 100 epochs was used, as there were no significant differences in metrics between the models. Visual comparison of example images is more informative. In the following image, three models are compared visually. A brief inspection shows that the model 'yolo11m' performs best at detecting the relevant regions, but it also produces some false positives, such as detecting a solar plant where none exists.
+
+![](./report_images/compare_predictions_models.jpg)
 
 ## Use in QGIS
 
-for the use of the trained model in QGIS the following two ways are taken in concern. To work directly on the data and because of difficults getting the desired output fomat the second way 'PNG with world-file' is implementet for this work.
+For the integration of the trained model in QGIS, two approaches were considered. Due to challenges in obtaining the desired output format directly, the second approach using 'PNG files with world files' was implemented in this project.
 
-### Plugin Deepness
-The QGIS pluging [Deepness]() is made for the simple usage of AI-models on geodata. The model has to be made in ONNX format and give as output a tensor with shape [n_classes, width, height]. the plugin applies the model on a given input layer in raster format and save the segmentation masks as polygons.
+### Deepness Plugin
 
-### PNG with world-file
-There are defined two simple functions in [xxx](xxx) to perform the following tasks:
+The QGIS plugin [Deepness](https://qgis-plugin-deepness.readthedocs.io/en/latest/) enables straightforward application of AI models to geospatial data. The model must be exported in ONNX format and should output a tensor with shape [n_classes, width, height]. The plugin applies the model to a given raster input layer and saves the resulting segmentation masks as polygons.
 
-- download the image from wMS service and save the world-file, a standardized file with information abaut the location of the image in a directory. the areal image can be eather stored in the same directory or returned as PIL image for further processing
-- make prediction with a given yolo-model and PIl image as input and store the prediction as png file
+### PNG with World File
 
-The png files then can be loaded in QGIS for furth processing and analyzing. On the example image below the proportion of bebaung for the whole area of the 'Marktgemeinde Lana' is visualized.
+Two simple functions are defined in [05_Use_model_to_predict.ipynb](/05_Use_model_to_predict.ipynb) to perform the following tasks:
 
+- Download the image from a WMS service and save the corresponding world file, which contains standardized georeferencing information. The aerial image can either be stored in the same directory or returned as a PIL image for further processing.
+- Generate predictions using a specified YOLO model and a PIL image as input, and save the resulting segmentation mask as a PNG file.
 
+The resulting PNG files can then be loaded into QGIS for further processing and analysis, as illustrated in the image below. Buildings are shown in black, and solar plants are shown in red.
 
+![](./report_images/qgis_example.jpg)
 
+## Problems and Improvements
 
-## Problems and  Improvements
-There are the following improvements wich can be optimized in further work
+The following improvements could be addressed in future work:
 
-- There are reconized apple fields as solar plants and streets as buildings. With mor training data and augmentation during training process the problem shuold be solved or be better
-- an the edges the objects are not detected well, in most cases a row of one pixel is empty. this could be done better having an overlap between images
-- 
-
-
+- Apple orchards are sometimes recognized as solar plants, and streets as buildings. With more training data and data augmentation during training, this issue should be mitigated. Improving image augmentation during training could also help.
+- At the edges, objects are not detected well; in most cases, a row of one pixel is missing. This could be improved by introducing overlap between images by a specific number of pixels.
 
 ## Conclusion
 
-this is a quick and simple implementation to use yolo for segmentation of aereal images. with different training data it is als possible to detect other objects wich can be trees, pools, apple fields.
-
+This is a quick and simple implementation of YOLO for segmentation of aerial images. With different training data, it is also possible to detect other objects such as trees, pools, or apple orchards. It would be interesting to compare the results with conventional segmentation methods, such as using a U-Net.
